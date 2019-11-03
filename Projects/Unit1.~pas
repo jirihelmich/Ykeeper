@@ -1,0 +1,45 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    Memo1: TMemo;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+        F: file of Byte;
+        verze: String;
+begin
+    AssignFile(F, 'version.txt');
+    {$I-} // vypnutí automatické kontroly
+    Reset(F); // pokus o otevøení souboru
+    {$I+} // zapnutí automatické kontroly
+    if IOResult = 0 then begin
+      Read(verze);
+      memo1.Text := verze;
+      CloseFile(F);
+    end else
+      MessageDlg('Chyba pøi práci se souborem!', mtWarning, [mbOk], 0);
+
+end;
+
+end.
